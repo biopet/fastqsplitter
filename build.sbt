@@ -1,4 +1,4 @@
-organization := "nl.biopet"
+organization := "com.github.biopet"
 name := "fastq-splitter"
 
 version := "0.1.0-SNAPSHOT"
@@ -9,7 +9,10 @@ resolvers += Resolver.mavenLocal
 
 lazy val fastqSplitter = project in file(".")
 
-libraryDependencies += "nl.biopet" %% "biopet-tool-utils" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.github.biopet" %% "biopet-tool-utils" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.github.biopet" %% "biopet-ngs-utils" % "0.1.0-SNAPSHOT"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % Test
 libraryDependencies += "org.testng" % "testng" % "6.8" % Test
+
+mainClass in assembly := Some("nl.biopet.tools.fastqsplitter.Main")

@@ -5,8 +5,6 @@ scalaVersion := "2.11.11"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-lazy val fastqSplitter = project in file(".")
-
 libraryDependencies += "com.github.biopet" %% "biopet-tool-utils" % "0.1.0-SNAPSHOT"
 libraryDependencies += "com.github.biopet" %% "biopet-ngs-utils" % "0.1.0-SNAPSHOT"
 

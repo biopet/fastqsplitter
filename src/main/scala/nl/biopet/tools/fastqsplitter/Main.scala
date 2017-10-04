@@ -9,7 +9,8 @@ import scala.collection.JavaConversions._
 
 object Main extends ToolCommand {
   def main(args: Array[String]): Unit = {
-    val parser = new ArgsParser(this.getClass.getPackage.getName.split(".").last)
+    val parser = new ArgsParser(
+      this.getClass.getPackage.getName.split(".").last)
     val cmdArgs =
       parser.parse(args, Args()).getOrElse(throw new IllegalArgumentException)
 
@@ -20,7 +21,9 @@ object Main extends ToolCommand {
     logger.info("Done")
   }
 
-  def splitFastqFiles(inputFile: File, outputFiles: List[File], groupSize: Int = 100): Unit = {
+  def splitFastqFiles(inputFile: File,
+                      outputFiles: List[File],
+                      groupSize: Int = 100): Unit = {
     val output = for (file <- outputFiles.toArray)
       yield new AsyncFastqWriter(new BasicFastqWriter(file), groupSize)
     val reader = new FastqReader(inputFile)
@@ -29,7 +32,7 @@ object Main extends ToolCommand {
     logger.info("Output files: " + outputFiles.mkString(", "))
 
     var counter: Long = 0
-    for ((group,i) <- reader.iterator().grouped(groupSize).zipWithIndex) {
+    for ((group, i) <- reader.iterator().grouped(groupSize).zipWithIndex) {
       val writer = output(i % output.length)
       group.foreach(writer.write)
       counter += group.length

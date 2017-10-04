@@ -7,6 +7,6 @@ import org.testng.annotations.Test
 class MainTest extends TestNGSuite with Matchers {
   @Test
   def test(): Unit = {
-    Main.main(Array())
+    Main.main(Array("-i", "inputFile"))
   }
 }

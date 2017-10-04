@@ -9,6 +9,29 @@ class FastqSplitterTest extends BiopetTest {
   val fq: String = resourcePath("/paired01a.fq")
 
   @Test
+  def testNoArgs(): Unit = {
+    intercept[IllegalArgumentException] {
+      FastqSplitter.main(Array())
+    }
+  }
+
+  @Test
+  def testWrongGroupSize(): Unit = {
+    val temp = File.createTempFile("out", ".fastq")
+    temp.deleteOnExit()
+    intercept[IllegalArgumentException] {
+      FastqSplitter.splitFastqFile(new File(fq), List(temp), 3, 7)
+    }.getMessage shouldBe "requirement failed: logLimit should be a multiplication of groupSize"
+  }
+
+  @Test
+  def testMethod(): Unit = {
+    val temp = File.createTempFile("out", ".fastq")
+    temp.deleteOnExit()
+    FastqSplitter.splitFastqFile(new File(fq), List(temp), 1, 1)
+  }
+
+  @Test
   def testMain(): Unit = {
     val temp = File.createTempFile("out", ".fastq")
     temp.deleteOnExit()

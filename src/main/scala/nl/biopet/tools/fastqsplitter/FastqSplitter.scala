@@ -15,14 +15,17 @@ object FastqSplitter extends ToolCommand {
 
     logger.info("Start")
 
-    splitFastqFiles(cmdArgs.inputFile, cmdArgs.outputFiles)
+    splitFastqFile(cmdArgs.inputFile, cmdArgs.outputFiles)
 
     logger.info("Done")
   }
 
-  def splitFastqFiles(inputFile: File,
+  def splitFastqFile(inputFile: File,
                       outputFiles: List[File],
-                      groupSize: Int = 100): Unit = {
+                      groupSize: Int = 100,
+                      logLimit: Int = 1000000): Unit = {
+    require(logLimit % groupSize == 0, "logLimit should be a multiplication of groupSize")
+
     val output = for (file <- outputFiles.toArray)
       yield new AsyncFastqWriter(new BasicFastqWriter(file), groupSize)
     val reader = new FastqReader(inputFile)
@@ -35,7 +38,8 @@ object FastqSplitter extends ToolCommand {
       val writer = output(i % output.length)
       group.foreach(writer.write)
       counter += group.length
-      if (counter % 1000000 == 0) logger.info(counter + " reads processed")
+      if (counter % logLimit == 0)
+        logger.info(counter + " reads processed")
     }
     output.foreach(_.close())
     reader.close()

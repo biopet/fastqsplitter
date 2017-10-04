@@ -8,6 +8,10 @@ import nl.biopet.utils.tool.ToolCommand
 import scala.collection.JavaConversions._
 
 object FastqSplitter extends ToolCommand {
+  /**
+    * This is main entry point for the tool [[FastqSplitter]]
+    * @param args for detail fix this look into [[ArgsParser]]
+    */
   def main(args: Array[String]): Unit = {
     val parser = new ArgsParser(toolName)
     val cmdArgs =
@@ -20,6 +24,13 @@ object FastqSplitter extends ToolCommand {
     logger.info("Done")
   }
 
+  /**
+    * This method will split a fastq file
+    * @param inputFile input fastq file
+    * @param outputFiles output fastq files
+    * @param groupSize Number fastq records to write to a file
+    * @param logLimit Per how much records a status log is outputed
+    */
   def splitFastqFile(inputFile: File,
                       outputFiles: List[File],
                       groupSize: Int = 100,

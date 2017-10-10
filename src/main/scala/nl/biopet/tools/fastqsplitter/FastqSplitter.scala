@@ -8,6 +8,7 @@ import nl.biopet.utils.tool.ToolCommand
 import scala.collection.JavaConversions._
 
 object FastqSplitter extends ToolCommand {
+
   /**
     * This is main entry point for the tool [[FastqSplitter]]
     * @param args for detail fix this look into [[ArgsParser]]
@@ -32,10 +33,11 @@ object FastqSplitter extends ToolCommand {
     * @param logLimit Per how much records a status log is outputed
     */
   def splitFastqFile(inputFile: File,
-                      outputFiles: List[File],
-                      groupSize: Int = 100,
-                      logLimit: Int = 1000000): Unit = {
-    require(logLimit % groupSize == 0, "logLimit should be a multiplication of groupSize")
+                     outputFiles: List[File],
+                     groupSize: Int = 100,
+                     logLimit: Int = 1000000): Unit = {
+    require(logLimit % groupSize == 0,
+            "logLimit should be a multiplication of groupSize")
 
     val output = for (file <- outputFiles.toArray)
       yield new AsyncFastqWriter(new BasicFastqWriter(file), groupSize)

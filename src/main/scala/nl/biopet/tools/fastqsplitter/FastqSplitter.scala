@@ -43,7 +43,7 @@ object FastqSplitter extends ToolCommand {
       yield new AsyncFastqWriter(new BasicFastqWriter(file), groupSize)
     val reader = new FastqReader(inputFile)
 
-    logger.info("Starting to split fatsq file: " + inputFile)
+    logger.info("Starting to split fastq file: " + inputFile)
     logger.info("Output files: " + outputFiles.mkString(", "))
 
     var counter: Long = 0

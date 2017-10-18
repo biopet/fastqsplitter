@@ -11,10 +11,10 @@ class ArgsParser(cmdName: String) extends AbstractOptParser[Args](cmdName) {
     .valueName("<file>")
     .action((x, c) => c.copy(inputFile = x))
     .text("Path to input file")
-  opt[File]('o', "outputFile") // outputFiles?
+  opt[File]('o', "outputFile")
     .required()
     .unbounded()
     .valueName("<file>")
     .action((x, c) => c.copy(outputFiles = x :: c.outputFiles))
-    .text("Path to output file. Multiple output files can be specified.") // Syntax unclear. '-o file1 -o file2' or -o file1 file2
+    .text("Path to output file. Multiple output files can be specified.")
 }

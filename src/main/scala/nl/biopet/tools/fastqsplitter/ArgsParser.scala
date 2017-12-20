@@ -7,7 +7,6 @@ import nl.biopet.utils.tool.{AbstractOptParser, ToolCommand}
 class ArgsParser(toolCommand: ToolCommand[Args])
     extends AbstractOptParser[Args](toolCommand) {
   opt[File]('I', "inputFile")
-    .unbounded()
     .required()
     .valueName("<file>")
     .action((x, c) => c.copy(inputFile = x))

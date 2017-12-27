@@ -24,7 +24,7 @@ package nl.biopet.tools.fastqsplitter
 import java.io.File
 
 import htsjdk.samtools.fastq.{AsyncFastqWriter, BasicFastqWriter, FastqReader}
-import nl.biopet.utils.tool.{AbstractOptParser, ToolCommand}
+import nl.biopet.utils.tool.ToolCommand
 
 import scala.collection.JavaConversions._
 
@@ -37,7 +37,6 @@ object FastqSplitter extends ToolCommand[Args] {
     * @param args for detail fix this look into [[ArgsParser]]
     */
   def main(args: Array[String]): Unit = {
-    val parser = new ArgsParser(this)
     val cmdArgs = cmdArrayToArgs(args)
 
     logger.info("Start")
@@ -100,13 +99,13 @@ object FastqSplitter extends ToolCommand[Args] {
   def exampleText: String =
     s"""
        |To split a file into three different files of roughly equal size:
-       |${example("--inputFile",
+       |${example("-I",
                   "myfastQ.fastq",
-                  "--output",
+                  "-o",
                   "mySplittedFastq_1.fastq",
-                  "--output",
+                  "-o",
                   "mySplittedFastq_2.fastq",
-                  "--ouput",
+                  "-o",
                   "mySplittedFastq_3.fastq")}
      """.stripMargin
 }

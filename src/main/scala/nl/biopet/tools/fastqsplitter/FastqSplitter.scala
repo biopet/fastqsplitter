@@ -3,20 +3,21 @@ package nl.biopet.tools.fastqsplitter
 import java.io.File
 
 import htsjdk.samtools.fastq.{AsyncFastqWriter, BasicFastqWriter, FastqReader}
-import nl.biopet.utils.tool.ToolCommand
+import nl.biopet.utils.tool.{AbstractOptParser, ToolCommand}
 
 import scala.collection.JavaConversions._
 
-object FastqSplitter extends ToolCommand {
+object FastqSplitter extends ToolCommand[Args] {
+  def emptyArgs: Args = Args()
+  def argsParser = new ArgsParser(this)
 
   /**
     * This is main entry point for the tool [[FastqSplitter]]
     * @param args for detail fix this look into [[ArgsParser]]
     */
   def main(args: Array[String]): Unit = {
-    val parser = new ArgsParser(toolName)
-    val cmdArgs =
-      parser.parse(args, Args()).getOrElse(throw new IllegalArgumentException)
+    val parser = new ArgsParser(this)
+    val cmdArgs = cmdArrayToArgs(args)
 
     logger.info("Start")
 
@@ -58,4 +59,33 @@ object FastqSplitter extends ToolCommand {
     reader.close()
     logger.info("Done, " + counter + " reads processed")
   }
+
+  def descriptionText: String =
+    """
+      |This tool divides a fastq file into smaller fastq files, based on the number of output files specified. For ecample,
+      |if one specifies 5 output files, it will split the fastq into 5 files of equal size. This can be very useful if one
+      |wants to use the chunking option in a pipeline: FastqSplitter can generate the exact number of fastq files
+      |(chunks) as needed.
+      |
+      |This tool will divide the fastq files in files of equal length.
+      """.stripMargin
+
+  def manualText: String =
+    s"""
+       |$toolName needs an input file and as many output files as are required. If
+       |five output files are given, the input file will be split in five files.
+     """.stripMargin
+
+  def exampleText: String =
+    s"""
+       |To split a file into three different files of roughly equal size:
+       |${example("--inputFile",
+                  "myfastQ.fastq",
+                  "--output",
+                  "mySplittedFastq_1.fastq",
+                  "--output",
+                  "mySplittedFastq_2.fastq",
+                  "--ouput",
+                  "mySplittedFastq_3.fastq")}
+     """.stripMargin
 }

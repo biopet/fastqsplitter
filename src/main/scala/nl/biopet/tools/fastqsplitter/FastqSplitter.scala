@@ -81,13 +81,28 @@ object FastqSplitter extends ToolCommand[Args] {
   }
 
   def descriptionText: String =
-    """
+    s"""
       |This tool divides a fastq file into smaller fastq files, based on the number of output files specified. For ecample,
       |if one specifies 5 output files, it will split the fastq into 5 files of equal size. This can be very useful if one
-      |wants to use the chunking option in a pipeline: FastqSplitter can generate the exact number of fastq files
+      |wants to use the chunking option in a pipeline: $toolName can generate the exact number of fastq files
       |(chunks) as needed.
       |
-      |This tool will divide the fastq files in files of equal length.
+      |$toolName will read groups of reads (100 reads per group)
+      |and distribute this evenly over the output FASTQ
+      |files. $toolName will iterate over all the output files while writing the
+      |read groups.
+      |
+      |Example:
+      |A fastq file is split with a group size of 100 and three output files.
+      |read 1-100 will be assigned to output1
+      |read 101-200 will be assigned to output2
+      |read 201-300 will be assigned to output3
+      |read 301-400 will be assigned to output1
+      |read 401-500 will be assigned to output2
+      |etc.
+      |
+      |This will make sure the output fastq files are of equal size and there is no positional bias in each
+      |output file.
       """.stripMargin
 
   def manualText: String =

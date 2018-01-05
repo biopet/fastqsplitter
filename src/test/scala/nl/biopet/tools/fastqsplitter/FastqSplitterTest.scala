@@ -2,10 +2,11 @@ package nl.biopet.tools.fastqsplitter
 
 import java.io.File
 
-import nl.biopet.test.BiopetTest
+import nl.biopet.utils.test.tools.ToolTest
 import org.testng.annotations.Test
 
-class FastqSplitterTest extends BiopetTest {
+class FastqSplitterTest extends ToolTest[Args] {
+  def toolCommand: FastqSplitter.type = FastqSplitter
   val fq: String = resourcePath("/paired01a.fq")
 
   @Test
